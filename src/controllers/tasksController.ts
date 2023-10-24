@@ -59,4 +59,36 @@ const getAllTasksByUserId = async(req: any, res: Response) => {
   }
 }
 
-export { createTask, getAllTasksByUserId }
+const getTaskByUserId = async(req: any, res: Response) => {
+  try {
+    const taskId = req.params.id
+
+    const task = await Task.findOneBy(
+      {
+        id: parseInt(taskId),
+        user_id: req.token.id
+      }
+    )
+
+    if (!task) {
+      return res.status(404).json({
+        success: true,
+        message: "task by user doesnt found",
+      })
+    }
+
+    return res.json({
+      success: true,
+      message: "task by user retrieved",
+      data: task
+    })
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: "task cant by user retrieved",
+      error: error
+    })
+  }
+}
+
+export { createTask, getAllTasksByUserId, getTaskByUserId }
