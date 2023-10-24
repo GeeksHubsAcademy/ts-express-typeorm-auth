@@ -1,0 +1,32 @@
+{
+  "name": "express-ts-fsd",
+  "version": "1.0.0",
+  "description": "express basic ts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/index.ts",
+    "build": "tsc",
+    "start": "node ./build/index.js"
+  },
+  "author": "datata",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.20",
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.6.2",
+    "nodemon": "^3.0.1",
+    "reflect-metadata": "^0.1.13",
+    "save": "^2.9.0",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.17",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/node": "^20.8.7"
+  }
+}
