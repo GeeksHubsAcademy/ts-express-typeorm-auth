@@ -91,4 +91,55 @@ const getTaskByUserId = async(req: any, res: Response) => {
   }
 }
 
-export { createTask, getAllTasksByUserId, getTaskByUserId }
+const updateTaskById = async(req: any, res: Response) => {
+  try {
+    // recuperamos la info
+    const title = req.body.title
+    const description = req.body.description
+    const status = req.body.status
+
+    // validar la info
+
+    // comprobarmos si la task nos pertenece 
+    const taskId = req.params.id
+
+    const task = await Task.findOneBy(
+      {
+        id: parseInt(taskId),
+        user_id: req.token.id
+      }
+    )
+
+    if (!task) {
+      return res.status(404).json({
+        success: true,
+        message: "task by user doesnt found and cant updated",
+      })
+    }
+
+    const updateTask = await Task.update(
+      {
+        id: parseInt(taskId)
+      },
+      {
+        title: title,
+        description: description,
+        status: status
+      }
+    )
+
+    return res.json({
+      success: true,
+      message: "task updated",
+      data: updateTask
+    })
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: "task cant by updated",
+      error: error
+    })
+  }
+}
+
+export { createTask, getAllTasksByUserId, getTaskByUserId, updateTaskById }
