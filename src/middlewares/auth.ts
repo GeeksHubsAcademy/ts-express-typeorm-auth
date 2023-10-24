@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { TokenDecoded } from "../types";
 
-const auth = (req: any, res: Response, next: NextFunction) => {
+const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.headers.authorization) {
       return res.json(
@@ -21,9 +22,7 @@ const auth = (req: any, res: Response, next: NextFunction) => {
       )
     }
 
-    const tokenDecoded = jwt.verify(token, "secreto")
-
-    req.token = tokenDecoded
+    req.token = jwt.verify(token, "secreto") as TokenDecoded
     
     next()
   } catch (error) {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Task } from "../models/Task";
 
-const createTask = async(req: any, res: Response) => {
+const createTask = async(req: Request, res: Response) => {
   try {
     //recuperar la info
     const title = req.body.title
@@ -37,7 +37,7 @@ const createTask = async(req: any, res: Response) => {
   }
 }
 
-const getAllTasksByUserId = async(req: any, res: Response) => {
+const getAllTasksByUserId = async(req: Request, res: Response) => {
   try {
     const tasks = await Task.findBy(
       {
@@ -59,16 +59,40 @@ const getAllTasksByUserId = async(req: any, res: Response) => {
   }
 }
 
-const getTaskByUserId = async(req: any, res: Response) => {
+const getTaskByUserId = async(req: Request, res: Response) => {
   try {
     const taskId = req.params.id
 
-    const task = await Task.findOneBy(
+    const task = await Task.findOne(
       {
-        id: parseInt(taskId),
-        user_id: req.token.id
+        select: {  
+          id: true,
+          title: true,        
+          user: {
+            id: true,
+            email: true,
+          }
+        },
+        where: {
+          id: parseInt(taskId),
+          user_id: req.token.id  // Asumiendo que user es la relación en la entidad Task
+        },
+        relations: {
+          user: {}
+        }
       }
     )
+
+    // const task = await Task.findOne(
+    //   {
+    //     where: {
+    //        id: 1,
+    //     },
+    //     relations: {
+    //       usersTasks: true,
+    //     }
+    //   }
+    // )
 
     if (!task) {
       return res.status(404).json({
@@ -82,16 +106,16 @@ const getTaskByUserId = async(req: any, res: Response) => {
       message: "task by user retrieved",
       data: task
     })
-  } catch (error) {
+  } catch (error: any) {
     return res.json({
       success: false,
       message: "task cant by user retrieved",
-      error: error
+      error: error.message
     })
   }
 }
 
-const updateTaskById = async(req: any, res: Response) => {
+const updateTaskById = async(req: Request, res: Response) => {
   try {
     // recuperamos la info
     const title = req.body.title

@@ -4,6 +4,7 @@ import { CreateUsersTable1698050881658 } from "./migration/1698050881658-create-
 import { User } from "./models/User"
 import { CreateTasksTable1698146272912 } from "./migration/1698146272912-create-tasks-table"
 import { Task } from "./models/Task"
+import { CreateTaskUserTable1698165955088 } from "./migration/1698165955088-create_task_user_table"
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -15,7 +16,8 @@ export const AppDataSource = new DataSource({
   entities: [User, Task],
   migrations: [
     CreateUsersTable1698050881658,
-    CreateTasksTable1698146272912
+    CreateTasksTable1698146272912,
+    CreateTaskUserTable1698165955088
   ],
   synchronize: false,
   logging: false,
