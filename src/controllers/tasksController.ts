@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Task } from "../models/Task";
+import { User } from "../models/User";
 
 const createTask = async(req: Request, res: Response) => {
   try {
@@ -63,12 +64,38 @@ const getTaskByUserId = async(req: Request, res: Response) => {
   try {
     const taskId = req.params.id
 
-    const task = await Task.findOneBy(
+    const task = await Task.findOne(
       {
-        id: parseInt(taskId),
-        user_id: req.token.id
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          created_at: true,
+          user: {
+            id: true,
+            username: true,
+            email: true
+          }
+        },
+        where:{
+          id: parseInt(taskId),
+          user_id: req.token.id
+        },
+        relations: {
+          user: true,
+        },
       }
     )
+
+    // const userTask = await User.findOne(
+    //   {
+    //     select: ['id', 'email', "username"],
+    //     where: {
+    //       id: task?.user_id
+    //     }
+    //   }
+    // )
+    
 
     if (!task) {
       return res.status(404).json({
@@ -80,7 +107,8 @@ const getTaskByUserId = async(req: Request, res: Response) => {
     return res.json({
       success: true,
       message: "task by user retrieved",
-      data: task
+      data: task,
+      // user: userTask
     })
   } catch (error) {
     return res.json({
