@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Task } from "../models/Task";
 
-const createTask = async(req: any, res: Response) => {
+const createTask = async(req: Request, res: Response) => {
   try {
     //recuperar la info
     const title = req.body.title
@@ -37,7 +37,7 @@ const createTask = async(req: any, res: Response) => {
   }
 }
 
-const getAllTasksByUserId = async(req: any, res: Response) => {
+const getAllTasksByUserId = async(req: Request, res: Response) => {
   try {
     const tasks = await Task.findBy(
       {
@@ -59,7 +59,7 @@ const getAllTasksByUserId = async(req: any, res: Response) => {
   }
 }
 
-const getTaskByUserId = async(req: any, res: Response) => {
+const getTaskByUserId = async(req: Request, res: Response) => {
   try {
     const taskId = req.params.id
 
@@ -91,7 +91,7 @@ const getTaskByUserId = async(req: any, res: Response) => {
   }
 }
 
-const updateTaskById = async(req: any, res: Response) => {
+const updateTaskById = async(req: Request, res: Response) => {
   try {
     // recuperamos la info
     const title = req.body.title

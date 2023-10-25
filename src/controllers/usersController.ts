@@ -114,7 +114,7 @@ const login = async (req: Request, res: Response) => {
 }
 
 
-const profile = async (req: any, res: Response) => {
+const profile = async (req: Request, res: Response) => {
   try {
     const user = await User.findOneBy(
       {
