@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinTable } from "typeorm"
 import { Task } from "./Task"
 
 @Entity("users")
@@ -30,4 +30,19 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Task, (task) => task.user)
   tasks!: Task[];
+
+  @ManyToMany(() => Task)
+  @JoinTable({
+     name: "task_user",
+     joinColumn: {
+        name: "user_id",
+        referencedColumnName: "id",
+     },
+     inverseJoinColumn: {
+        name: "task_id",
+        referencedColumnName: "id",
+     },
+  })
+  userTasks!: Task[];
+
 }

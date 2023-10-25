@@ -170,4 +170,33 @@ const updateTaskById = async(req: Request, res: Response) => {
   }
 }
 
-export { createTask, getAllTasksByUserId, getTaskByUserId, updateTaskById }
+const getTasksAssignedByUser = async(req: Request, res: Response) => {
+  try {
+    const user = await User.findOne(
+      {
+        where: {
+          id: req.token.id
+        },
+        relations: {
+          userTasks: true
+        }
+      }
+    )
+
+    return res.json(
+      {
+        success: true,
+        message: "Tasks by user retrieved",
+        data: user
+      }
+    ) 
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: "tasks cant by retrieved",
+      error: error
+    })
+  }
+}
+
+export { createTask, getAllTasksByUserId, getTaskByUserId, updateTaskById, getTasksAssignedByUser }
