@@ -89,7 +89,7 @@ const login = async (req: Request, res: Response) => {
         role: user.role,
         email: user.email
       },
-      "secreto",
+      process.env.JWT_SECRET as string,
       {
         expiresIn: "3h",
       }
@@ -142,7 +142,17 @@ const profile = async (req: Request, res: Response) => {
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.find();
+    // const users = await User.find();
+    const pageSize = parseInt(req.query.skip as string) || 10
+    const page = parseInt(req.query.page as string) || 1
+
+    const skip = (page - 1) * pageSize;
+
+    // Recupera los usuarios con paginación
+    const users = await User.find({
+      skip: skip,
+      take: pageSize,
+    });
 
     return res.json(
       {
