@@ -4,10 +4,10 @@
   "description": "express basic ts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/index.ts",
+    "test": "tsc && jest --setupFiles=dotenv/config",
+    "dev": "nodemon ./src/server.ts",
     "build": "tsc",
-    "start": "node ./build/index.js"
+    "start": "node ./build/server.js"
   },
   "author": "datata",
   "license": "ISC",
@@ -22,12 +22,22 @@
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1",
-    "@types/express": "^4.17.20",
-    "typescript": "^5.2.2",
-    "nodemon": "^3.0.1",
     "@types/bcrypt": "^5.0.1",
+    "@types/express": "^4.17.20",
+    "@types/jest": "^29.5.8",
     "@types/jsonwebtoken": "^9.0.4",
-    "@types/node": "^20.8.7"
+    "@types/node": "^20.8.7",
+    "@types/supertest": "^2.0.16",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "src"
+    ]
   }
 }
