@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { AppDataSource } from "./db";
 import app from "./app";
 

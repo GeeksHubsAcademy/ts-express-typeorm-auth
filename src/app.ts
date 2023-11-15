@@ -1,5 +1,4 @@
 import express from 'express'
-import 'dotenv/config'
 
 import { router as routerUsers } from "./routes/usersRoutes";
 import { router as routerTasks } from "./routes/tasksRoutes";
