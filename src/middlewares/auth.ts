@@ -5,7 +5,7 @@ import { TokenDecoded } from "../types";
 const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.headers.authorization) {
-      return res.json(
+      return res.status(401).json(
         {
           message: 'AUTH_REQUIRED'
         }
@@ -15,7 +15,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization.split(' ')[1];
 
     if (!token) {
-      return res.json(
+      return res.status(401).json(
         {
           message: 'AUTH_REQUIRED'
         }

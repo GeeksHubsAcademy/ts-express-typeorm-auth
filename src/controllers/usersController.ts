@@ -38,7 +38,7 @@ const register = async (req: Request, res: Response) => {
     return res.json({
       success: true,
       message: "User created succesfully",
-      token: newUser
+      data: newUser
     })
   } catch (error) {
     return res.status(500).json(
@@ -173,4 +173,34 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 }
 
-export { register, login, profile, getAllUsers }
+const deleteUserById = async(req: Request, res: Response) => {
+  try {
+    const user = await User.findOneBy(
+      {
+        id: parseInt(req.params.id)
+      }
+    )
+
+    if (!user) {
+      return res.status(404).json({
+        success: true,
+        message: "user doesnt exists"
+      })
+    }
+
+    await user.remove();
+
+    return res.status(200).json({
+      success: true,
+      message: "user removed"
+    })
+  } catch (error: any) {
+    return res.json({
+      success: false,
+      message: "User cant by deleted",
+      error: error.message
+    })
+  }
+}
+
+export { register, login, profile, getAllUsers, deleteUserById }
