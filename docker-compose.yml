@@ -2,29 +2,27 @@ services:
   server:
     build:
       context: .
+      dockerfile: dockerfile
     # env_file:
     #   - .env
-    # environment:
-      # NODE_ENV: production
-      # PORT: 3000
-      # MYSQL_HOST: db
     volumes:
       - ./:/usr/src/app
       - node_modules:/usr/src/app/node_modules
     ports:
-      - 3000:3000
+      - $PORT:$PORT
     depends_on:
-      - db
-      # db:
+      - db-docker-host
+      # db-docker-host:
         # condition: service_healthy
     networks:
       - project_network
-  db:
+
+  db-docker-host:
     image: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: "fsd-typeorm"
-      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_ROOT_PASSWORD: $DB_PASSWORD
     networks:
       - project_network
     # healthcheck:
@@ -34,14 +32,12 @@ services:
     #   timeout: 5s
     #   retries: 55
     ports:
-      - "3306:3306"
-    expose:
-      - "3306"
+      - "$DB_PORT:$DB_PORT"
     volumes:
-      - my-db:/var/lib/mysql
+      - db-docker:/var/lib/mysql
 
 volumes:
-  my-db:
+  db-docker:
   node_modules:
 
 networks:
