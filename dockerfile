@@ -6,4 +6,8 @@ COPY . .
 
 RUN npm install
 
+ENV NODE_USER node
+
+USER $NODE_USER
+
 CMD [ "npm", "run", "dev" ]

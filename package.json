@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --legacy-watch ./src/index.ts",
-    "build": "tsc",
-    "start": "node ./build/index.js"
+    "start": "node ./build/index.js",
+    "build": "npm run build:clean && npm run build:tsc",
+    "build:clean": "rimraf dist; exit 0",
+    "build:tsc": "tsc"
   },
   "author": "datata",
   "license": "ISC",

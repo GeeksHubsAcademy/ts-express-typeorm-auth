@@ -1,13 +1,14 @@
 services:
   server:
     build:
+      target: production
       context: .
-      dockerfile: dockerfile
-    # env_file:
-    #   - .env
-    volumes:
-      - ./:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+      dockerfile: dockerfile-multi-stage
+    env_file:
+      - .env.prod
+    # volumes:
+    #   - ./:/usr/src/app
+    #   - node_modules:/usr/src/app/node_modules
     ports:
       - $PORT:$PORT
     depends_on:
