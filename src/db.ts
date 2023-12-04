@@ -1,4 +1,6 @@
 import "reflect-metadata"
+import 'dotenv/config'
+
 import { DataSource } from "typeorm"
 import { CreateUsersTable1698050881658 } from "./migration/1698050881658-create-users-table"
 import { User } from "./models/User"
